@@ -11,7 +11,7 @@ return {
           lualine_c = {'filename'},
           lualine_x = {'encoding', 'fileformat', 'filetype'},
           lualine_y = {'progress'},
-          lualine_z = {{'datetime', style = '%d/%M/%Y | %H:%M:%S' },'location'}
+          lualine_z = {{'datetime', style = '%d/%m/%Y' },'location'}
         },
         inactive_sections = {
           lualine_a = {},
