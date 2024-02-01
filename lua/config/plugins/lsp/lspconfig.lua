@@ -4,15 +4,16 @@ return {
     "hrsh7th/cmp-nvim-lsp",
   },
 
-  config = function ()
+  config = function()
+    require('neodev').setup()
     local lspconfig = require("lspconfig")
-    
+
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    
-    lspconfig.rust_analyzer.setup{
+
+    lspconfig.rust_analyzer.setup {
       capabilities = capabilities
     }
-    lspconfig.lua_ls.setup{
+    lspconfig.lua_ls.setup {
       capabilities = capabilities,
       settings = {
         diagnostics = {
@@ -20,15 +21,23 @@ return {
         }
       }
     }
+    lspconfig.tsserver.setup {
+      capabilities = capabilities,
+    }
+
+    lspconfig.elixirls.setup {
+      cmd = { "/Users/victor/git/elixir/elixirls/language_server.sh" },
+      capabilities = capabilities,
+    }
 
     vim.api.nvim_create_autocmd('LspAttach', {
       callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-          vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = args.buf })
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = args.buf })
         if client.server_capabilities.hoverProvider then
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = args.buf })
         end
-        
+
         local nmap = function(keys, func, desc)
           if desc then
             desc = 'LSP: ' .. desc
@@ -46,6 +55,7 @@ return {
         nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
         nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
         nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+        nmap('<leader>ld', vim.diagnostic.open_float, 'Show [L]ine [D]iagnostics')
 
         -- See `:help K` for why this keymap
         nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -64,6 +74,6 @@ return {
           vim.lsp.buf.format()
         end, { desc = 'Format current buffer with LSP' })
       end,
-      })
+    })
   end,
 }
