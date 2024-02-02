@@ -26,7 +26,7 @@ return {
     }
 
     lspconfig.elixirls.setup {
-      cmd = { "/Users/victor/git/elixir/elixirls/language_server.sh" },
+      cmd = { "/home/victor/.elixir-ls/language_server.sh" },
       capabilities = capabilities,
     }
 

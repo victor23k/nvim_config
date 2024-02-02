@@ -1,10 +1,16 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  ensure_installed = { 'lua', 'rust', 'elixir', 'heex'},
-  auto_install = true,
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
+        local configs = require("nvim-treesitter.configs")
+        configs.setup({
+            ensure_installed = { "lua", "erlang", "elixir" },
+            sync_install = false,
+            auto_install = false,
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = false,
+            },
+        })
+    end,  
 }
